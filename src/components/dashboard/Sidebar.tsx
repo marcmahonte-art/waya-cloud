@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useDashboard } from '@/context/DashboardContext';
+import { useUser } from '@/context/UserContext';
 
 const navItems = [
   { icon: Cloud, label: 'Mon Cloud' },
@@ -39,6 +40,9 @@ export const Sidebar = () => {
     upgradeStorage,
     isUpgraded
   } = useDashboard();
+
+  const { user } = useUser();
+  const isAdmin = user?.phone?.replace(/\s+/g, '') === '+22677777777' || user?.email === 'dg@waya.bf';
 
   // Orange Money Payment Simulation State
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -98,18 +102,20 @@ export const Sidebar = () => {
         </nav>
 
         {/* Admin Access Portal */}
-        <div className="px-4 py-2 mt-2 border-t border-gray-100">
-          <Link
-            href="/admin"
-            className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold text-gray-500 hover:text-primary hover:bg-primaryLight/40 transition-all border border-dashed border-gray-200 hover:border-primary/30"
-          >
-            <div className="flex items-center gap-2.5">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse shrink-0"></span>
-              <span>Console Super Admin</span>
-            </div>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
+        {isAdmin && (
+          <div className="px-4 py-2 mt-2 border-t border-gray-100 animate-fade-in">
+            <Link
+              href="/admin"
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold text-gray-500 hover:text-primary hover:bg-primaryLight/40 transition-all border border-dashed border-gray-200 hover:border-primary/30"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shrink-0"></span>
+                <span>Console Super Admin</span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        )}
 
         <div className="p-4 mt-auto">
           <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">

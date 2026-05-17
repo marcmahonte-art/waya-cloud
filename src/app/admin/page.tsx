@@ -25,6 +25,8 @@ import {
   XCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useUser } from '@/context/UserContext';
+import { useRouter } from 'next/navigation';
 
 // Data Schemas
 interface AdminUser {
@@ -85,6 +87,15 @@ const initialTransactions: AdminTransaction[] = [
 ];
 
 export default function SuperAdminDashboard() {
+  const { user, isLoading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && (!user || (user.phone?.replace(/\s+/g, '') !== '+22677777777' && user.email !== 'dg@waya.bf'))) {
+      router.push('/dashboard');
+    }
+  }, [user, isLoading, router]);
+
   const [users, setUsers] = useState<AdminUser[]>(initialUsers);
   const [logs, setLogs] = useState<SystemLog[]>(initialLogs);
   const [transactions, setTransactions] = useState<AdminTransaction[]>(initialTransactions);
@@ -92,6 +103,24 @@ export default function SuperAdminDashboard() {
   const [activeTab, setActiveTab] = useState<'users' | 'finance' | 'logs' | 'wasabi'>('users');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterPlan, setFilterPlan] = useState('Tous');
+
+  // Show a blank loading screen or redirection indicator while checking authentication state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center text-textSecondary font-semibold text-sm">
+        <RefreshCw className="w-5 h-5 animate-spin text-primary mr-2" />
+        Vérification des accès administratifs...
+      </div>
+    );
+  }
+
+  if (!user || (user.phone?.replace(/\s+/g, '') !== '+22677777777' && user.email !== 'dg@waya.bf')) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center text-textSecondary font-semibold text-sm">
+        Accès restreint. Redirection vers votre espace...
+      </div>
+    );
+  }
 
   // Interactive Feedbacks / Toasts
   const [toastMessage, setToastMessage] = useState<string | null>(null);

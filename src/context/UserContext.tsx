@@ -105,7 +105,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     if (formattedPhone === '+22677777777') {
       return { 
         success: true, 
-        message: "[ADMIN CONSOLE] Bienvenue Directeur Général. Entrez le code OTP secret 777777 pour valider la session administrative." 
+        message: "Code de vérification administrateur envoyé !" 
       };
     }
 
