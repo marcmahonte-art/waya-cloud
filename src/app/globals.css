@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1D9E75;
+  --color-primaryDark: #0F6E56;
+  --color-primaryLight: #E1F5EE;
+  --color-accent: #FAC775;
+  --color-background: #F8FAFB;
+  --color-surface: #FFFFFF;
+  --color-textPrimary: #1A1A2E;
+  --color-textSecondary: #6B7280;
+
+  --radius-card: 12px;
+  --radius-button: 8px;
+  --radius-pill: 99px;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --background: #F8FAFB;
+  --foreground: #1A1A2E;
+}
+
+@utility btn-pulse {
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 0 0 rgba(29, 158, 117, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(29, 158, 117, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 158, 117, 0);
+  }
+}
+
+body {
+  @apply bg-background text-textPrimary antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
